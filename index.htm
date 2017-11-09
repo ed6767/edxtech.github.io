@@ -1,1 +1,41 @@
-WIP
+<html>
+<head>
+<title>ed.e</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata|Libre+Barcode+39+Text" rel="stylesheet">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    var keyword = "";
+
+    $(document).ready(function(){
+
+        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+        {
+            tags: keyword,
+            tagmode: "any",
+            format: "json"
+        },
+        function(data) {
+            var rnd = Math.floor(Math.random() * data.items.length);
+
+            var image_src = data.items[rnd]['media']['m'].replace("_m", "_b");
+
+         document.getElementById("random").src=image_src;
+
+        });
+
+    });
+    </script>
+</head>
+<body style="font-family: 'Inconsolata', monospace;">
+  <center>
+      <img id="random" src="https://" height="280" width="393" /><br><br>
+  
+      <font style="font-family: 'Libre Barcode 39 Text', cursive;" size="10" >edxtech</font>
+      <br><br>
+          <font size="5">Welcome to my site, it's a W.I.P...</font><br><br>
+      <h4>ed.e 2017</h4>
+      <h5>The images above are completly random, and not filtered...</h5>
+    </center>
+</body>
+</html>
