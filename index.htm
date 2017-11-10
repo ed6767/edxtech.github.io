@@ -5,8 +5,8 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript">
 
-    var keyword = "minecraft";
-
+    var keyword = "";
+var image_src = "";
     $(document).ready(function(){
 
         $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
@@ -16,12 +16,33 @@
             format: "json"
         },
         function(data) {
+          
             var rnd = Math.floor(Math.random() * data.items.length);
 
-            var image_src = data.items[rnd]['media']['m'].replace("_m", "_b");
+          image_src = data.items[rnd]['media']['m'].replace("_m", "_b");
+             
+                    document.getElementById("random").src=image_src;    
+       // Now detect if porno because we don't want that
+                    $.getJSON("https://api.sightengine.com/1.0/check.json?models=nudity&api_user=329275117&api_secret=sDuAY36DpyHfPLJUMMdk&url=" + image_src,
+        function(data2) {
+      var notporno = data2.nudity.safe;     
+                  
+if (notporno < 0.6) {
+     document.getElementById("random").setAttribute("style","filter: blur(25px);");
+   var imgWidth =     document.getElementById("random").clientWidth;
+            var imgHeight =     document.getElementById("random").clientHeight;
+       $('#random').attr({width:imgWidth/2, height: imgHeight/2});
+  
+} else {
+    
+      document.getElementById("random").setAttribute("style","");
+    var imgWidth =     document.getElementById("random").clientWidth;
+            var imgHeight =     document.getElementById("random").clientHeight;
+       $('#random').attr({width:imgWidth/2, height: imgHeight/2});
+    }
 
-         document.getElementById("random").src=image_src;
-
+        $('#random').fadeIn();
+   });
         });
 
     });
@@ -29,13 +50,14 @@
 </head>
 <body style="font-family: 'Inconsolata', monospace;">
   <center>
-      <img id="random" src="https://" height="280" width="393" /><br><br>
-  
+ 
       <font style="font-family: 'Libre Barcode 39 Text', cursive;" size="10" >edxtech</font>
       <br><br>
           <font size="5">Welcome to my site, it's a W.I.P...</font><br><br>
       <h4>ed.e 2017</h4>
-      <h5>The images above are completly random, and not filtered... <br> <i>It's not my fault if you see porn m8.</i></h5>
+      <h5>Random image of the visit:</h5>
+           <img id="random" src="https://" style="filter: blur(25px); display: none;" /><br><br>
+  
     </center>
 </body>
 </html>
